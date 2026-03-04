@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Sistema ELMVSS - Registro</title>
+
+<style>
+body{
+    font-family: Arial, sans-serif;
+    background-color: #f4f6f9;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    height:100vh;
+}
+
+.container{
+    background:white;
+    padding:25px;
+    width:350px;
+    border-radius:10px;
+    box-shadow:0 0 10px rgba(0,0,0,0.1);
+}
+
+h2{
+    text-align:center;
+    color:#2c3e50;
+}
+
+input{
+    width:100%;
+    padding:8px;
+    margin:8px 0;
+    border-radius:5px;
+    border:1px solid #ccc;
+}
+
+button{
+    width:100%;
+    padding:10px;
+    background:#2c3e50;
+    color:white;
+    border:none;
+    border-radius:5px;
+    cursor:pointer;
+}
+
+button:hover{
+    background:#34495e;
+}
+
+.error{
+    color:red;
+    font-size:13px;
+}
+
+.success{
+    color:green;
+    text-align:center;
+    margin-top:10px;
+}
+</style>
+</head>
+
+<body>
+
+<div class="container">
+    <h2>Sistema ELMVSS</h2>
+    <form id="registroForm">
+
+        <input type="text" id="nombre" placeholder="Nombre completo">
+        <div class="error" id="errorNombre"></div>
+
+        <input type="email" id="correo" placeholder="Correo electrónico">
+        <div class="error" id="errorCorreo"></div>
+
+        <input type="password" id="password" placeholder="Contraseña">
+        <div class="error" id="errorPassword"></div>
+
+        <input type="password" id="confirmPassword" placeholder="Confirmar contraseña">
+        <div class="error" id="errorConfirm"></div>
+
+        <input type="number" id="edad" placeholder="Edad">
+        <div class="error" id="errorEdad"></div>
+
+        <label>
+            <input type="checkbox" id="terminos"> Acepto los términos y condiciones
+        </label>
+        <div class="error" id="errorTerminos"></div>
+
+        <button type="submit">Registrar</button>
+
+        <div id="mensajeExito" class="success"></div>
+
+    </form>
+</div>
+
+<script>
+
+document.getElementById("registroForm").addEventListener("submit", function(e){
+    e.preventDefault();
+
+    // Limpiar errores
+    document.querySelectorAll(".error").forEach(el => el.innerHTML = "");
+    document.getElementById("mensajeExito").innerHTML = "";
+
+    let nombre = document.getElementById("nombre").value.trim();
+    let correo = document.getElementById("correo").value.trim();
+    let password = document.getElementById("password").value;
+    let confirmPassword = document.getElementById("confirmPassword").value;
+    let edad = document.getElementById("edad").value;
+    let terminos = document.getElementById("terminos").checked;
+
+    let valido = true;
+
+    if(nombre === ""){
+        document.getElementById("errorNombre").innerHTML = "El nombre es obligatorio";
+        valido = false;
+    }
+
+    if(correo === "" || !correo.includes("@")){
+        document.getElementById("errorCorreo").innerHTML = "Correo inválido";
+        valido = false;
+    }
+
+    if(password.length < 6){
+        document.getElementById("errorPassword").innerHTML = "La contraseña debe tener mínimo 6 caracteres";
+        valido = false;
+    }
+
+    if(password !== confirmPassword){
+        document.getElementById("errorConfirm").innerHTML = "Las contraseñas no coinciden";
+        valido = false;
+    }
+
+    if(edad === "" || edad <= 0){
+        document.getElementById("errorEdad").innerHTML = "Edad inválida";
+        valido = false;
+    }
+
+    if(!terminos){
+        document.getElementById("errorTerminos").innerHTML = "Debes aceptar los términos";
+        valido = false;
+    }
+
+    if(valido){
+        document.getElementById("mensajeExito").innerHTML = "Registro exitoso en el Sistema ELMVSS";
+        document.getElementById("registroForm").reset();
+    }
+
+});
+
+</script>
+
+</body>
+</html>
